@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Users</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <h1>Perfil do GitHub</h1>
+        <form onsubmit="return getProfile()">
+            <input type="text" placeholder="Insira o nome do usuário" id="usernameInput" required>
+            <button class="botao" type="submit">Buscar</button>
+        </form>
+        <div id="profileInfo" class="profile-info"></div>
+    </main>
+   
+    <script>
+        function getProfile(){
+            event.preventDefault();
+            const username = document.getElementById('usernameInput').value;
+            fetch(`https://api.github.com/users/${username}`)
+            .then(res => res.json())    
+            .then(data =>{
+                    const profileInfo = document.getElementById('profileInfo');
+                    profileInfo.innerHTML = `
+                        <a href="${data.html_url}"><img src="${data.avatar_url}"></a>
+                        <div>
+                            <p>Nome: ${data.name}</p>
+                            <p>Seguidores: ${data.followers}</p>
+                            <p>Seguindo: ${data.following}</p>
+                            <p>Repositórios:${data.public_repos}</p>
+                            <p>Twitter: @${data.twitter_username}</p>
+                        </div>
+                        
+                        `;
+   
+                            
+                            
+                })
+        }
+
+    </script>
+</body>
+</html>
